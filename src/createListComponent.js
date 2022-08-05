@@ -249,36 +249,36 @@ export default function createListComponent({
       const { direction, layout } = this.props;
       const { scrollOffset, scrollUpdateWasRequested } = this.state;
 
-      // if (scrollUpdateWasRequested && this._outerRef != null) {
-      //   const outerRef = ((this._outerRef: any): HTMLElement);
+      if (scrollUpdateWasRequested && this._outerRef != null) {
+        const outerRef = ((this._outerRef: any): HTMLElement);
 
-      //   // TODO Deprecate direction "horizontal"
-      //   if (direction === 'horizontal' || layout === 'horizontal') {
-      //     if (direction === 'rtl') {
-      //       // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
-      //       // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
-      //       // So we need to determine which browser behavior we're dealing with, and mimic it.
-      //       switch (getRTLOffsetType()) {
-      //         case 'negative':
-      //           outerRef.scrollLeft = -scrollOffset;
-      //           break;
-      //         case 'positive-ascending':
-      //           outerRef.scrollLeft = scrollOffset;
-      //           break;
-      //         default:
-      //           const { clientWidth, scrollWidth } = outerRef;
-      //           outerRef.scrollLeft = scrollWidth - clientWidth - scrollOffset;
-      //           break;
-      //       }
-      //     } else {
-      //       outerRef.scrollLeft = scrollOffset;
-      //     }
-      //   } else {
-      //     outerRef.scrollTop = scrollOffset;
-      //   }
-      // }
+        // TODO Deprecate direction "horizontal"
+        if (direction === 'horizontal' || layout === 'horizontal') {
+          if (direction === 'rtl') {
+            // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
+            // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
+            // So we need to determine which browser behavior we're dealing with, and mimic it.
+            switch (getRTLOffsetType()) {
+              case 'negative':
+                outerRef.scrollLeft = -scrollOffset;
+                break;
+              case 'positive-ascending':
+                outerRef.scrollLeft = scrollOffset;
+                break;
+              default:
+                const { clientWidth, scrollWidth } = outerRef;
+                outerRef.scrollLeft = scrollWidth - clientWidth - scrollOffset;
+                break;
+            }
+          } else {
+            outerRef.scrollLeft = scrollOffset;
+          }
+        } else {
+          outerRef.scrollTop = scrollOffset;
+        }
+      }
 
-      this._callPropsCallbacks();
+      // this._callPropsCallbacks();
     }
 
     componentWillUnmount() {
